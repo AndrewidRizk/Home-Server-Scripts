@@ -1,8 +1,8 @@
+import os
 import requests
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import time
 
 def check_server_status(url):
     try:
@@ -37,21 +37,17 @@ def send_email_notification(sender_email, sender_password, recipient_email, subj
 if __name__ == "__main__":
     # Configuration
     SERVER_URL = "http://70.50.135.241:5000/"
-    CHECK_INTERVAL = 60  # in seconds
+    
+    # Fetch credentials from environment variables
+    SENDER_EMAIL = os.getenv("SENDER_EMAIL")  # Set this in GitHub Actions
+    SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")  # Set this in GitHub Actions
+    RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL")  # Set this in GitHub Actions
 
-    # Email notification details
-    SENDER_EMAIL = "your_email@gmail.com"  # Replace with your email
-    SENDER_PASSWORD = "your_email_password"  # Replace with your email password or app-specific password
-    RECIPIENT_EMAIL = "recipient_email@gmail.com"  # Replace with recipient's email
-
-    while True:
-        server_status = check_server_status(SERVER_URL)
-        if not server_status:
-            print("Server is down. Sending notification...")
-            subject = "Server Down Alert"
-            body = f"The server at {SERVER_URL} is not responding. Please check immediately."
-            send_email_notification(SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, subject, body)
-        else:
-            print("Server is up.")
-
-        time.sleep(CHECK_INTERVAL)
+    server_status = check_server_status(SERVER_URL)
+    if not server_status:
+        print("Server is down. Sending notification...")
+        subject = "Server Down Alert"
+        body = f"The server at {SERVER_URL} is not responding. Please check immediately."
+        send_email_notification(SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL, subject, body)
+    else:
+        print("Server is up.")

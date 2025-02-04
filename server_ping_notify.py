@@ -36,7 +36,7 @@ def send_email_notification(sender_email, sender_password, recipient_email, subj
 
 if __name__ == "__main__":
     # Configuration
-    SERVER_URL = "http://70.50.135.241:5000/"
+    SERVER_URL = "http://174.92.129.203:5000/"
     
     # Fetch credentials from environment variables
     SENDER_EMAIL = os.getenv("SENDER_EMAIL")  # Set this in GitHub Actions

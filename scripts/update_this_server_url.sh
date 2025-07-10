@@ -16,8 +16,9 @@ PYTHON_FILE="./server_ping_notify.py"
 
 # 🔹 Replace the IP address in SERVER_URL
 sed -i "s|^\s*SERVER_URL = \".*\"|SERVER_URL = \"http://$NEW_IP:5000/\"|" "$PYTHON_FILE"
-
+echo "$NEW_IP" >> deploy.txt
 # 🔹 Git commit & push
 git add "$PYTHON_FILE"
+git add deploy.txt
 git commit -m "Update SERVER_URL to $NEW_IP"
 git push

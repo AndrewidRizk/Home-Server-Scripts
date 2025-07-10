@@ -15,7 +15,7 @@ git remote set-url origin git@github.com:AndrewidRizk/Home-Server-Scripts
 PYTHON_FILE="./server_ping_notify.py"  
 
 # 🔹 Replace the IP address in SERVER_URL
-sed -i "s|^SERVER_URL = \".*\"|SERVER_URL = \"http://$NEW_IP:5000/\"|" "$PYTHON_FILE"
+sed -i "s|^\s*SERVER_URL = \".*\"|SERVER_URL = \"http://$NEW_IP:5000/\"|" "$PYTHON_FILE"
 
 # 🔹 Git commit & push
 git add "$PYTHON_FILE"

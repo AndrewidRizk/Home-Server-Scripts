@@ -13,6 +13,7 @@ newIP=$1
 
 # ✅ Change to your project directory
 cd ~/Desktop/projects/Englishify-public
+git remote set-url origin git@github.com:AndrewidRizk/Englishify-public.git
 
 # ✅ Log the new IP to deploy.txt
 echo "$newIP" >> deploy.txt

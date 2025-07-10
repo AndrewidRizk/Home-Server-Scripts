@@ -18,15 +18,16 @@ def update_duckdns(ip_address: str, domain: str, token: str) -> bool:
         return False
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python update_duckdns.py <IP_ADDRESS>")
+    if len(sys.argv) != 3:
+        print("Usage: python update_duckdns.py <IP_ADDRESS> <DuckDNS_TOKEN>")
         sys.exit(1)
 
     ip = sys.argv[1]
+    duckdns_token = sys.argv[2]
 
     DUCKDNS_DOMAIN1 = "visionmaster"
     DUCKDNS_DOMAIN2 = "androrizk"
-    DUCKDNS_TOKEN = ""
+    DUCKDNS_TOKEN = duckdns_token
 
     success1 = update_duckdns(ip, DUCKDNS_DOMAIN1, DUCKDNS_TOKEN)
     success2 = update_duckdns(ip, DUCKDNS_DOMAIN2, DUCKDNS_TOKEN)

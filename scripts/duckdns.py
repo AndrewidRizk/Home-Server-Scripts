@@ -1,40 +1,43 @@
-import requests
 import sys
+import requests
 
-def update_duckdns(ip_address: str, domain: str, token: str) -> bool:
+def read_token(file_path):
+    try:
+        with open(file_path, 'r') as f:
+            token = f.read().strip()
+            return token
+    except FileNotFoundError:
+        print(f"Error: Cannot find token file at {file_path}")
+        sys.exit(1)
+
+def update_duckdns(ip_address, domain, token):
     url = f"https://www.duckdns.org/update?domains={domain}&token={token}&ip={ip_address}"
-    
     try:
         response = requests.get(url, timeout=10)
-        result = response.text.strip()
-
-        if result == "OK":
-            return True
-        else:
-            print(f"DuckDNS returned error: {result}")
-            return False
+        return response.text.strip() == "OK"
     except Exception as e:
         print(f"Request failed: {e}")
         return False
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python update_duckdns.py <IP_ADDRESS> <DuckDNS_TOKEN>")
+        print("Usage: python duckdns.py <IP_ADDRESS> <token_file>")
         sys.exit(1)
 
     ip = sys.argv[1]
-    duckdns_token = sys.argv[2]
+    token_file = sys.argv[2]
 
-    DUCKDNS_DOMAIN1 = "visionmaster"
-    DUCKDNS_DOMAIN2 = "androrizk"
-    DUCKDNS_TOKEN = duckdns_token
+    # Hardcoded domain names
+    DOMAIN1 = "visionmaster"
+    DOMAIN2 = "androrizk"
 
-    success1 = update_duckdns(ip, DUCKDNS_DOMAIN1, DUCKDNS_TOKEN)
-    success2 = update_duckdns(ip, DUCKDNS_DOMAIN2, DUCKDNS_TOKEN)
+    token = read_token(token_file)
 
-    print(f"{DUCKDNS_DOMAIN1}: {'Success' if success1 else 'Failure'}")
-    print(f"{DUCKDNS_DOMAIN2}: {'Success' if success2 else 'Failure'}")
+    success1 = update_duckdns(ip, DOMAIN1, token)
+    success2 = update_duckdns(ip, DOMAIN2, token)
 
-    # Optional: Overall success
-    all_success = success1 and success2
-    print(f"Overall Update Status: {'OK' if all_success else 'Failed'}")
+    print(f"{DOMAIN1}: {'Success' if success1 else 'Failed'}")
+    print(f"{DOMAIN2}: {'Success' if success2 else 'Failed'}")
+
+    all_ok = success1 and success2
+    print("Overall:", "OK" if all_ok else "Some Failed")
